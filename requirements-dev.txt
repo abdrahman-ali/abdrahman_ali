@@ -1,0 +1,13 @@
+# Development requirements
+-r requirements.txt
+
+# Additional development tools
+pre-commit>=3.3.0
+autopep8>=2.0.0
+pylint>=2.17.0
+ipdb>=0.13.0
+jupyter-contrib-nbextensions>=0.7.0
+
+# Documentation
+mkdocs>=1.5.0
+mkdocs-material>=9.2.0

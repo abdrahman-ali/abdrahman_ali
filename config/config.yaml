@@ -1,0 +1,212 @@
+# Main Configuration File
+# Modify these settings based on your project needs
+
+project:
+  name: "data-ml-pipeline"
+  version: "1.0.0"
+  description: "Comprehensive Data Engineering, ML, DL, RL Pipeline"
+  author: "Your Name"
+
+# Data Configuration
+data:
+  raw_data_path: "data/raw"
+  processed_data_path: "data/processed"
+  interim_data_path: "data/interim"
+  external_data_path: "data/external"
+
+  # Data validation settings
+  validation:
+    check_missing_values: true
+    check_duplicates: true
+    check_outliers: true
+    outlier_method: "iqr"  # iqr, zscore, isolation_forest
+
+  # Data splitting
+  train_test_split:
+    test_size: 0.2
+    validation_size: 0.1
+    random_state: 42
+    stratify: true
+
+# Feature Engineering
+features:
+  numeric_features: []  # Add your numeric features
+  categorical_features: []  # Add your categorical features
+  text_features: []  # Add your text features
+  datetime_features: []  # Add your datetime features
+
+  # Feature processing
+  scaling:
+    method: "standard"  # standard, minmax, robust, normalizer
+
+  encoding:
+    method: "onehot"  # onehot, label, target, ordinal
+
+  # Feature selection
+  selection:
+    enabled: true
+    method: "mutual_info"  # mutual_info, chi2, f_classif, rfe
+    k_features: 20
+
+# Machine Learning Configuration
+ml:
+  task_type: "classification"  # classification, regression, clustering
+  target_column: "target"
+
+  # Models to train
+  models:
+    - name: "random_forest"
+      enabled: true
+      params:
+        n_estimators: 100
+        max_depth: 10
+        random_state: 42
+
+    - name: "xgboost"
+      enabled: true
+      params:
+        n_estimators: 100
+        learning_rate: 0.1
+        max_depth: 6
+
+    - name: "lightgbm"
+      enabled: true
+      params:
+        n_estimators: 100
+        learning_rate: 0.1
+
+    - name: "logistic_regression"
+      enabled: false
+      params:
+        max_iter: 1000
+
+  # Hyperparameter tuning
+  hyperparameter_tuning:
+    enabled: true
+    method: "optuna"  # optuna, grid_search, random_search
+    n_trials: 50
+    cv_folds: 5
+
+  # Model evaluation
+  evaluation:
+    metrics:
+      classification: ["accuracy", "precision", "recall", "f1", "roc_auc"]
+      regression: ["mse", "rmse", "mae", "r2"]
+    cross_validation:
+      enabled: true
+      n_folds: 5
+
+# Deep Learning Configuration
+deep_learning:
+  framework: "pytorch"  # pytorch, tensorflow, both
+
+  # Training parameters
+  training:
+    batch_size: 32
+    epochs: 100
+    learning_rate: 0.001
+    optimizer: "adam"  # adam, sgd, rmsprop
+    loss_function: "cross_entropy"  # cross_entropy, mse, binary_cross_entropy
+
+  # Model architecture (customize in code)
+  architecture:
+    type: "feedforward"  # feedforward, cnn, rnn, lstm, transformer
+    input_size: null  # Will be set automatically
+    hidden_layers: [128, 64, 32]
+    output_size: null  # Will be set automatically
+    dropout: 0.2
+    batch_norm: true
+
+  # Callbacks and regularization
+  callbacks:
+    early_stopping:
+      enabled: true
+      patience: 10
+      monitor: "val_loss"
+
+    reduce_lr:
+      enabled: true
+      patience: 5
+      factor: 0.5
+
+    model_checkpoint:
+      enabled: true
+      save_best_only: true
+      monitor: "val_loss"
+
+# Reinforcement Learning Configuration
+reinforcement_learning:
+  environment: "gym"  # gym, custom
+  env_name: "CartPole-v1"  # Change to your environment
+
+  # RL Algorithm
+  algorithm: "dqn"  # dqn, ppo, a3c, ddpg, sac
+
+  # Training parameters
+  training:
+    episodes: 1000
+    max_steps: 500
+    gamma: 0.99  # Discount factor
+    epsilon_start: 1.0
+    epsilon_end: 0.01
+    epsilon_decay: 0.995
+    learning_rate: 0.001
+    batch_size: 64
+    memory_size: 10000
+    target_update: 10
+
+  # Network architecture
+  network:
+    hidden_layers: [128, 64]
+    activation: "relu"
+
+# Experiment Tracking
+experiment_tracking:
+  enabled: true
+  backend: "mlflow"  # mlflow, wandb, tensorboard
+
+  mlflow:
+    tracking_uri: "mlruns"
+    experiment_name: "default"
+
+  wandb:
+    project: "data-ml-pipeline"
+    entity: null  # Your wandb username/team
+
+  tensorboard:
+    log_dir: "logs/tensorboard"
+
+# Model Deployment
+deployment:
+  model_registry: "mlflow"
+
+  # API Configuration
+  api:
+    host: "0.0.0.0"
+    port: 8000
+    workers: 4
+
+  # Model serving
+  serving:
+    framework: "fastapi"  # fastapi, flask, torchserve
+    batch_prediction: true
+    max_batch_size: 32
+
+# Logging Configuration
+logging:
+  level: "INFO"  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+  log_file: "logs/pipeline.log"
+
+# Compute Configuration
+compute:
+  device: "auto"  # auto, cpu, cuda, mps
+  num_workers: 4
+  seed: 42
+
+# Paths
+paths:
+  models: "models/saved_models"
+  checkpoints: "models/checkpoints"
+  logs: "logs"
+  reports: "docs/reports"
